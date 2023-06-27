@@ -12,5 +12,6 @@ namespace FavBooks.Data
         }
         public DbSet<FavBooks.Models.Book>? Book { get; set; }
         public DbSet<FavBooks.Models.Category>? Category { get; set; }
+        public DbSet<FavBooks.Models.Liked> Likeds { get; set; }
     }
 }

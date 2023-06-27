@@ -1,65 +1,64 @@
 ﻿@model IEnumerable<FavBooks.Models.Book>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "List of Books";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Summary)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ISBN)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageURL)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pages)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Summary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ISBN)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageURL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pages)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.BookId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BookId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BookId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 col-xs-6 border-primary mb-3">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-12">
+                        <div class="card-header text-white bg-info ">
+                            <p class="card-text">
+                                <h5 class="card-title d-flex justify-content-between">
+                                    <div class="flex-grow-1">@item.Title</div>
+                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                    {
+                                        <a class="px-2 text-white " asp-action="Edit" asp-route-id="@item.BookId"><i class="bi bi-pencil-square"></i></a>
+                                        <a class="px-2 text-danger " asp-action="Delete" asp-route-id="@item.BookId"><i class="bi bi-trash"></i></a>
+                                    }
+                                </h5>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <img class="img-fluid" src="@item.ImageURL" alt="@item.Title">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <p class="card-text"><b>Title:</b> @item.Title</p>
+                            <p class="card-text">
+                                <div class="myDIV">
+                                    <b>Summary: </b>
+                                    Read Summary <i class="bi bi-eyeglasses"></i>
+                                </div>
+                                <div class="hide"><b>@item.Summary</b></div>
+                            </p>
+                            <p class="card-text"><b>ISBN: </b>@item.ISBN</p>
+                            <p class="card-text"><b>Pages: </b>@item.Pages</p>
+                            <p class="card-text"><b>Category: </b>@item.Category.CategoryName</p>
+                            <p class="card-text ">
+                        </div>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div class="card-footer ">
+                            <p class="card-text d-flex justify-content-between">
+                                <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@item.BookId">
+                                    <i class="bi bi-plus-circle"></i> Reserve
+                                </a>
+                                <a class="btn btn-success text-white"
+                               asp-controller="Books"
+                               asp-action="Liked">
+                                    <i class="bi bi-heart-fill"></i> Add to Favorites
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

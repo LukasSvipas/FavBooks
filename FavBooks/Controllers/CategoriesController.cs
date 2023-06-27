@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FavBooks.Data;
 using FavBooks.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace FavBooks.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -46,6 +49,7 @@ namespace FavBooks.Controllers
         }
 
         // GET: Categories/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +58,7 @@ namespace FavBooks.Controllers
         // POST: Categories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("CategoryId,CategoryName")] Category category)
@@ -68,6 +73,7 @@ namespace FavBooks.Controllers
         }
 
         // GET: Categories/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Category == null)
@@ -86,6 +92,7 @@ namespace FavBooks.Controllers
         // POST: Categories/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CategoryId,CategoryName")] Category category)
@@ -119,6 +126,7 @@ namespace FavBooks.Controllers
         }
 
         // GET: Categories/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Category == null)
@@ -137,6 +145,7 @@ namespace FavBooks.Controllers
         }
 
         // POST: Categories/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

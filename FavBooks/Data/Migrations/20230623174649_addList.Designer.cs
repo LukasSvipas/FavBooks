@@ -4,6 +4,7 @@ using FavBooks.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FavBooks.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230623174649_addList")]
+    partial class addList
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,8 +35,8 @@ namespace FavBooks.Data.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<long>("ISBN")
-                        .HasColumnType("bigint");
+                    b.Property<float>("ISBN")
+                        .HasColumnType("real");
 
                     b.Property<string>("ImageURL")
                         .IsRequired()
@@ -73,26 +75,6 @@ namespace FavBooks.Data.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("FavBooks.Models.Liked", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Likeds");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -300,7 +282,7 @@ namespace FavBooks.Data.Migrations
             modelBuilder.Entity("FavBooks.Models.Book", b =>
                 {
                     b.HasOne("FavBooks.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("Books")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -357,6 +339,11 @@ namespace FavBooks.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FavBooks.Models.Category", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

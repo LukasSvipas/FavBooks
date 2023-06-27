@@ -8,12 +8,15 @@ namespace FavBooks.Models
         [Key] public int BookId { get; set; }
         public string Title { get; set; }
         public string Summary { get; set; }
-        public float ISBN { get; set; }
+        public long ISBN { get; set; }
         [Display(Name = "Cover")]
         public string ImageURL { get; set; }
         public int Pages { get; set; }
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
-        [ForeignKey("CategoryId")]
-        public Category Category { get; set; }
+        
+        [ForeignKey(nameof(CategoryId))]
+        
+        public Category? Category { get; set; }
     }
 }
